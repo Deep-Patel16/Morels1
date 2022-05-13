@@ -134,7 +134,135 @@ public boolean takeFromDecay(){
     } }
 
 public boolean cookMushrooms(ArrayList<Card> deck){
-    return false; // add false so that the this actions don't give errors when testing takeCardFromTheForest and takefromdecay
+    boolean pan_f = false;
+    for (int i =0;i<deck.size();i++) { //this checks if pan is there in the deck then we remove it from hand
+        if (deck.get(i).getType() == CardType.PAN){
+            pan_f = true;
+            deck.remove(deck.get(i));
+            for (int j=0;j<h.size();j++) {
+                if (h.getElementAt(j).getType() == CardType.PAN){
+                    h.removeElement(j);
+                }
+            }
+        }
+    }
+    for (int i=0;i<this.d.size();i++) { // checks if there is a pan in the display then it is removed from the display
+        if (d.getElementAt(i).getType() == CardType.PAN){
+            pan_f = true;
+            d.removeElement(i);
+        }
+    }
+     if (!pan_f){
+        return false;
+
+     }
+    
+    int number_of_mushrooms = 0;
+    int cider_num = 0;
+    int butter_num = 0;
+    for (int i = 0;i<deck.size();i++){ // checks if cider is there in the deck and removes from hand if cider is present
+        if (deck.get(i).getType() == CardType.CIDER){
+            deck.remove(deck.get(i));
+            cider_num=cider_num+1;
+            i--;
+            for (int j=0;j<h.size();j++) {
+                if (h.getElementAt(j).getType() == CardType.CIDER){
+                    h.removeElement(j);
+                }
+            }
+        }
+        else if (deck.get(i).getType() == CardType.BUTTER){ // check if butter is there in the deck and removes from hand if butter is present
+            deck.remove(deck.get(i));
+            butter_num=butter_num+1;
+            i--;
+            for (int j=0;j<h.size();j++) {
+                if (h.getElementAt(j).getType() == CardType.BUTTER){
+                    h.removeElement(j);
+                }
+            }
+        }
+    }
+
+   
+    if (deck.isEmpty()){
+        return false;
+    }
+    String cardcheck=deck.get(0).getName(); // this check if all the mushrooms are of same type.
+    for (Card c : deck){
+        if (c.getName().equals(cardcheck)){
+            
+            continue;
+        }
+        else{
+            return false;
+        }}
+
+
+    for (Card i:deck){  // checks the type of daymushrooms and nightmushrooms in the deck
+        if (i.getType() == CardType.DAYMUSHROOM){
+            number_of_mushrooms =number_of_mushrooms+1;
+        }
+        else if (i.getType() == CardType.NIGHTMUSHROOM){
+            number_of_mushrooms = number_of_mushrooms+2;
+        }
+    }
+
+    EdibleItem ed =new EdibleItem(CardType.DAYMUSHROOM, cardcheck);
+    if (cider_num>0 && butter_num>0){ // this is implemented if there is both cider and butter in the deck
+        int mushroom_required = cider_num*5 + butter_num*4;
+        if (number_of_mushrooms>=mushroom_required){
+            //ed = new EdibleItem(CardType.DAYMUSHROOM,deck.get(0).getName());
+            score=ed.getFlavourPoints()*number_of_mushrooms+ cider_num*5+ butter_num*3; // score is updated
+            for (int j=0;j<deck.size();j++){ // removes the mushrooms from the hand
+                for (int i=0;i<h.size();i++){
+                    if (h.getElementAt(i).getName().equals(deck.get(j).getName())){
+                        h.removeElement(i);
+                        addCardtoDisplay(h.getElementAt(i));
+                    }
+                }
+            }
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+    else if (cider_num==0 && butter_num==0){ // this is implemented if there no cider and butter present in the deck
+        if (number_of_mushrooms>=3){
+           // ed = new EdibleItem(CardType.DAYMUSHROOM,deck.get(0)getName());
+            score += (ed.getFlavourPoints())* number_of_mushrooms;
+            for (int j=0;j<deck.size();j++){
+                for (int i=0;i<h.size();i++){
+                    if (h.getElementAt(i).getName().equals(deck.get(j).getName())){
+                        h.removeElement(i);
+                        addCardtoDisplay(h.getElementAt(i));
+                    }
+                }
+            }
+            return true;
+        }
+        else{
+            return false;
+        }}
+    else{ // this implemented if there is only one cider or one butter
+        int mushroom_required = cider_num*5 + butter_num*4 ;
+        if (number_of_mushrooms>=mushroom_required){
+          //  ed = new EdibleItem(CardType.DAYMUSHROOM,deck.get(0).getName());
+            score += (ed.getFlavourPoints())* number_of_mushrooms + cider_num*5 +butter_num*3;
+            for (int j=0;j<deck.size();j++){
+                for (int i=0;i<h.size();i++){
+                    if (h.getElementAt(i).getName().equals(deck.get(j).getName())){
+                        h.removeElement(i);
+                        addCardtoDisplay(h.getElementAt(i));
+                    }
+                }
+            }
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
 }
     
     
