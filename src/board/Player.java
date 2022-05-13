@@ -97,23 +97,56 @@ public class Player {
 }
 
 public boolean takeFromDecay(){
-    return false; // add false so that the this actions don't give errors when testing takeCardFromTheForest
-}
+    int count = 0;
+    boolean check = false;
+    for (Card i: Board.getDecayPile()){  // checks if basket is there in the decay file
+        if (i.getType() == CardType.BASKET){
+            this.handlimit+=2;
+            count=count+1;
+        }
+    }
+    for (int i=0; i<h.size(); i++){ // removes basket from hand and adds it to display 
+        if (h.getElementAt(i).getType()==CardType.BASKET){
+            this.handlimit+=2;
+            addCardtoDisplay(h.getElementAt(i));
+            h.removeElement(i);
+        }
+    }
+
+    if(h.size()+(Board.getDecayPile().size()-count)<=getHandLimit()){
+        check=true;
+    }
+
+    if (check){
+        for (Card i: Board.getDecayPile()){ // adds basket from decay file to display and other cards to hand if handlimit is greater than total cards
+            if (i.getType() ==CardType.BASKET){
+                addCardtoDisplay(i);
+            }
+            else{
+                addCardtoHand(i);
+            }
+        }
+        Board.getDecayPile().clear();
+        return true;
+    }
+    else{
+    return false;
+    } }
 
 public boolean cookMushrooms(ArrayList<Card> deck){
-    return false; // add false so that the this actions don't give errors when testing takeCardFromTheForest
+    return false; // add false so that the this actions don't give errors when testing takeCardFromTheForest and takefromdecay
 }
     
     
 
 
 public boolean sellMushrooms(String cardname,int number_of_mushrooms){
-       return false; // add false so that the this actions don't give errors when testing takeCardFromTheForest
+       return false; // add false so that the this actions don't give errors when testing takeCardFromTheForest and takefromdecay
     }
     
 
 public boolean putPanDown(){
-        return false; // add false so that the this actions don't give errors when testing takeCardFromTheForest
+        return false; // add false so that the this actions don't give errors when testing takeCardFromTheForest and takefromdecay
     
     }
 }
