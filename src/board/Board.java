@@ -13,7 +13,7 @@ public class Board {
         forest = new CardList();
     }
     
-    public static void setUpCards(){
+    public static void setUpCards(){ // Added all type of mushrooms according to the required number in each pile
         Card card;
         for (int i = 0;i<10;i++){
             card = new HoneyFungus(CardType.DAYMUSHROOM);
@@ -107,12 +107,12 @@ public class Board {
         return decayPile;
     }
     public static void updateDecayPile(){
-        if (decayPile.size()<4){
+        if (decayPile.size()<4){ // if decay pile is not full then we remove card from forest and add it to decay pile
             decayPile.add(forest.getElementAt(forest.size()-1));
             getForest().removeCardAt(forest.size()-1);
         }
         else{
-        decayPile.clear();
+        decayPile.clear(); // if decay pile is full then we clear the whole pile and add it to decay pile and remove it from forest
         decayPile.add(forest.getElementAt(forest.size()-1));
         forest.removeCardAt(forest.size()-1);
     }
