@@ -122,12 +122,13 @@ public class Game{
 
 
 	public static void main (String [] args) {
-		if (args[0].equals("terminal")) {
-			play();
-		}
-		else if (args[0].equals("graphic")) {
-			//Application.launch(GraphicalGame.class, args);
-		}
+		play();
+		// if (args[0].equals("terminal")) {
+		// 	play();
+		// }
+		// else if (args[0].equals("graphic")) {
+		// 	//Application.launch(GraphicalGame.class, args);
+		// }
 	}
 
 	private static void displayBoard() {
