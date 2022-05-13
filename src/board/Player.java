@@ -269,7 +269,80 @@ public boolean cookMushrooms(ArrayList<Card> deck){
 
 
 public boolean sellMushrooms(String cardname,int number_of_mushrooms){
-       return false; // add false so that the this actions don't give errors when testing takeCardFromTheForest and takefromdecay
+    boolean check=false;
+    if(number_of_mushrooms>=2){
+    String str="";
+    for(int i=0;i<cardname.length();i++) {
+        if(cardname.charAt(i)!=' '){
+            str=str+cardname.charAt(i);
+        }
+    
+}
+    Mushroom mushroom1;
+    int count = 0;
+    int sticks =0;
+    int i =0 ;
+    int day_mushrooms = 0;
+    int night_mushrooms = 0;
+    while(i<h.size()){
+        if(count==number_of_mushrooms){
+            check = true;
+            break;
+        }
+        else{
+            if (h.getElementAt(i).getName().equals(str.toLowerCase())){
+                if (h.getElementAt(i).getType() == CardType.NIGHTMUSHROOM){
+                    if (count+2 - day_mushrooms == number_of_mushrooms){
+                        count -= day_mushrooms;
+                        for (int k =0;k<day_mushrooms;k++){
+                            addCardtoHand(new Mushroom(CardType.DAYMUSHROOM,h.getElementAt(i).getName()));
+                        }
+                        mushroom1 = new Mushroom(h.getElementAt(i).getType(),h.getElementAt(i).getName());
+                        sticks = sticks + (mushroom1.getSticksPerMushroom())*2;
+                        night_mushrooms+=2;
+                        count=count+2;
+                        h.removeElement(i);
+                    }
+                    else if (count+2>number_of_mushrooms){
+                        i=i+1;
+                    }
+                    else{
+                        mushroom1  = new Mushroom(h.getElementAt(i).getType(),h.getElementAt(i).getName());
+                        sticks = sticks + (mushroom1.getSticksPerMushroom())*2;
+                        night_mushrooms+=2;
+                        count= count+2;
+                        h.removeElement(i);                        
+                    }
+
+                }
+            else if (h.getElementAt(i).getType()==CardType.DAYMUSHROOM){
+                if(count+1>number_of_mushrooms){
+                    i++;
+                }
+                else{
+                    mushroom1 = new Mushroom(h.getElementAt(i).getType(),h.getElementAt(i).getName());
+                    sticks = sticks+mushroom1.getSticksPerMushroom();
+                    count=count+1;
+                    day_mushrooms+=1;
+                    h.removeElement(i);
+                }   
+            }
+        else{
+            check = false;
+            break;
+        }
+        continue;
+            }
+            else{
+                i++;
+            }
+        }
+    }
+        if (count==number_of_mushrooms){
+            addSticks(sticks);
+            check = true;}
+        }
+        return check;
     }
     
 
