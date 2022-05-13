@@ -347,8 +347,17 @@ public boolean sellMushrooms(String cardname,int number_of_mushrooms){
     
 
 public boolean putPanDown(){
-        return false; // add false so that the this actions don't give errors when testing takeCardFromTheForest and takefromdecay
+    for (int i=0;i<h.size();i++){ // checks if card is there in hand and adds it to display and removes it from hand
+        if (h.getElementAt(i).getType()==CardType.PAN){
+            addCardtoDisplay(h.getElementAt(i));
+            h.removeElement(i);
+            return true;
+        }
+        
+        }
+    return false;
+}
     
-    }
+    
 }
 
